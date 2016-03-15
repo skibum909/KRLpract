@@ -1,6 +1,6 @@
 ruleset trip_rules {
   meta {
-    name "Hello World"
+    name "Trips"
     description <<
 an echo service for CS462 lab
 >>
