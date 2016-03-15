@@ -1,4 +1,4 @@
-ruleset hello_world {
+ruleset trip_rules {
   meta {
     name "Hello World"
     description <<
