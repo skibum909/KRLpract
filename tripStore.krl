@@ -23,7 +23,7 @@ an echo service for CS462 lab
       long_trips
     };
     short_trips = function() {
-      short_trips = ent:trips;
+      short_trips = ent:trips.difference(ent:long_trips);
       short_trips
     };
   }
