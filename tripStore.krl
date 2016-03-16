@@ -37,7 +37,7 @@ an echo service for CS462 lab
     }
     {
       send_directive("store_trip") with
-        trip_length = mileage;
+        trip_length = trips();
     }
     always {
       set ent:trips init;
