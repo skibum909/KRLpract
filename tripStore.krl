@@ -8,6 +8,9 @@ an echo service for CS462 lab
     logging on
     sharing on
     provides hello
+    provides trips
+    provides long_trips
+    provides short_trips
  
   }
   global {
@@ -16,7 +19,15 @@ an echo service for CS462 lab
       msg = "Hello " + obj
       msg
     };
- 
+    trips = function() {
+      trips = ent:trips
+    };
+    long_trips = function() {
+      long_trips = ent:long_trips
+    };
+    short_trips = function() {
+      short_trips = ent:trips if not ent:long_trips{time}
+    };
   }
 
   rule collect_trips{
@@ -31,12 +42,12 @@ an echo service for CS462 lab
         trip_length = mileage;
     }
     always {
-      set ent:time init if not ent:time{mileage};
+      set ent:trips init if not ent:trips{time};
       log ("LOG mileage " + mileage);
     }
  }
 
-  rule find_long_trips{
+  rule collect_long_trips{
     select when explicit trip_processed mileage "(.*)" setting(m)
     if (m < long_trip) then {
       notify("My app", "Not a long trip.")
@@ -48,8 +59,12 @@ an echo service for CS462 lab
 
   rule found_long{
     select when explicit found_long_trip
-    send_directive("found_long_trip") with
-      trip_length = m;
+      set ent:long_trips init if not ent:long_trips{time};
   }
+
+  rule clear_trips{
+    select when car trip_reset
+      clear ent:trips;
+      clear ent:long_trips
  
 }
