@@ -18,8 +18,8 @@ an echo service for CS462 lab
  
   }
 
-  rule echo is active{
-    select when echo message mileage "(.*)" setting(m)
+  rule process_trip is active{
+    select when car new_trip mileage "(.*)" setting(m)
     send_directive("trip") with
       trip_length = m;
  }
