@@ -74,7 +74,7 @@ an echo service for CS462 lab
     pre {
     }
     {
-      send_diretive("clear_trips") with
+      send_directive("clear_trips") with
         trips = "cleared"
     }
     always{
