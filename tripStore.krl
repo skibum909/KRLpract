@@ -15,18 +15,17 @@ an echo service for CS462 lab
   }
   global {
     long_trip = 200;
-    hello = function(obj) {
-      msg = "Hello " + obj
-      msg
-    };
     trips = function() {
-      trips = ent:trips
+      trips = ent:trips;
+      trips
     };
     long_trips = function() {
-      long_trips = ent:long_trips
+      long_trips = ent:long_trips;
+      long_trips
     };
     short_trips = function() {
-      short_trips = ent:trips if not ent:long_trips{time}
+      short_trips = ent:trips;
+      short_trips
     };
   }
 
@@ -38,11 +37,11 @@ an echo service for CS462 lab
       init = time:mileage;
     }
     {
-      send_directive("trip") with
+      send_directive("store_trip") with
         trip_length = mileage;
     }
     always {
-      set ent:trips init if not ent:trips{time};
+      set ent:trips init;
       log ("LOG mileage " + mileage);
     }
  }
@@ -59,12 +58,28 @@ an echo service for CS462 lab
 
   rule found_long{
     select when explicit found_long_trip
-      set ent:long_trips init if not ent:long_trips{time};
+    pre {
+    }
+    {
+      send_directive("store_long_trip") with
+        long_trip = mileage;
+    }
+    always{
+      set ent:long_trips init;
+    }
   }
 
   rule clear_trips{
     select when car trip_reset
+    pre {
+    }
+    {
+      send_diretive("clear_trips") with
+        trips = "cleared"
+    }
+    always{
       clear ent:trips;
-      clear ent:long_trips
- 
+      clear ent:long_trips;
+    }
+  }
 }
