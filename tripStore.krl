@@ -7,7 +7,6 @@ an echo service for CS462 lab
     author "Dave Bennett"
     logging on
     sharing on
-    provides hello
     provides trips
     provides long_trips
     provides short_trips
